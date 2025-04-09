@@ -43,7 +43,7 @@ In Sui Move, entry functions are simply functions that can be called by transact
 
 ## Создание функции `mint`
 
-Функция чеканки (mint) в примере Hello World может быть определена следующим образом:
+Функция чеканки (mint) в примере Hello World выглядит следующим образом:
 
 ```move
     public fun mint(ctx: &mut TxContext) {
