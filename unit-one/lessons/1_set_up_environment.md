@@ -1,85 +1,87 @@
-# Setup Development Environment
+# Настройка среды разработки
 
-Welcome to the Sui Move introduction course. In this first unit, we will walk you through the process of setting up the development environment for working with Sui Move, and create a basic Hello World project as a gentle introduction into the world of Sui.
+Добро пожаловать на вводный курс по Sui Move. В данном разделе рассматривается процесс настройки среды разработки для взаимодействия с Sui Move. В завершение будет создан базовый проект Hello World, как вводный проект для комфортного старта в экосистеме Sui.
 
-## Install Sui Binaries Locally
+## Локальная установка бинарных файлов Sui
 
-1. [Install prerequisites depending on your operating system](https://docs.sui.io/build/install#prerequisites)
+1. Для начала необходимо подготовить [зависимости, соответствующие операционной системе](https://docs.sui.io/build/install#prerequisites)
 
-2. Install Sui binaries
+2. Для установки бинарных файлов Sui применяется следующая команда:
     
     `cargo install --locked --git https://github.com/MystenLabs/sui.git --branch devnet sui`
 
-    Change the branch target here to `testnet` or `mainnet` if you are targeting one of those.
+    При необходимости переключения на другую сеть, целевой branch может быть изменён на `testnet` или `mainnet`.
 
-   *Linux Users: The installation process will create build artifacts in /tmp directory. If you encountered `disk out of space` related issues during installation. Make sure to expand your tmpfs to at least 11GB.*
+   *Для пользователей Linux: Во время установки могут создаваться временные сборочные файлы в каталоге /tmp. В случае возникновения проблем, связанных с нехваткой дискового пространства, может потребоваться увеличение размера tmpfs как минимум до 11 ГБ.*
     ```
-   To check your tmpfs usage on Linux systems:
+   Для проверки использования tmpfs на Linux используется команда:
    
    df /tmp
    
-   You can expand the tmpfs by editing the `/etc/fstab` file and setting the size of tmpfs to 20G:
+   Расширение tmpfs возможно через редактирование файла /etc/fstab с установкой размера в 20 ГБ:
    
    tmpfs          /tmp        tmpfs   noatime,size=20G,mode=1777   0 0
     ```
 
-4. Check binaries are installed successfully:
+4. Проверка успешности установки:
 
     `sui --version`
 
-    You should see the version number in the terminal if sui binaries were installed successfully. 
+    При корректной установке в терминале отобразится номер версии.
 
-## Using a Docker Image with Pre-installed Sui Binaries
+## Использование Docker-образа с предустановленным Sui
 
-1. [Install Docker](https://docs.docker.com/get-docker/)
+1. [Предполагается наличие установленного Docker](https://docs.docker.com/get-docker/)
 
-2. Pull  Sui official docker image
+2. Загрузка официального образа осуществляется с помощью:
 
     `docker pull mysten/sui-tools:devnet`
 
-3. Start and shell into the Docker container:
+3. Запуск и вход в контейнер Docker осуществляется командами:
 
     `docker run --name suidevcontainer -itd mysten/sui-tools:devnet`
 
     `docker exec -it suidevcontainer bash`
 
-*💡Note: If the above Docker image is not compatible with your CPU architecture, you can start with a base [Rust](https://hub.docker.com/_/rust) Docker image appropriate for your CPU architecture, and install the Sui binaries and prerequisites as described above.*
+*💡Примечание: В случае несовместимости образа с архитектурой процессора, возможно использование базового Docker-образа с [Rust](https://hub.docker.com/_/rust), подходящего под архитектуру системы, с последующей установкой бинарных файлов Sui вручную, как описано ранее.*
 
-## (Optional) Configure VS Code with Move Analyzer Plug-in
+## (Дополнительно) Настройка среды разработки в VS Code с использованием плагина Move Analyzer
 
-1. Install [Move Analyzer plugin](https://marketplace.visualstudio.com/items?itemName=move.move-analyzer) from VS Marketplace
+1. [Плагин Move Analyzer](https://marketplace.visualstudio.com/items?itemName=move.move-analyzer) доступен в Visual Studio Marketplace.
 
-2. Add compatibility for Sui style wallet addresses:
+2. Для поддержки адресов кошельков в формате Sui предусмотрена установка:
 
     `cargo install --git https://github.com/move-language/move move-analyzer --features "address20"`
 
-## Sui CLI Basic Usage
+## Основы работы с интерфейсом командной строки Sui (CLI)
 
-[Reference Page](https://docs.sui.io/build/cli-client)
+[Справочная страница](https://docs.sui.io/build/cli-client)
 
-### Initialization
-- Enter `Y` for `do you want to connect to a Sui Full node server?` and press `Enter` to default to Sui Devnet full node
-- Enter `0` for key scheme selection to choose [`ed25519`](https://ed25519.cr.yp.to/)
+### Инициализация
 
-### Managing Networks
+- На вопрос `Do you want to connect to a Sui Full node server?` введите `Y`. Затем нажатием `Enter` будет использоваться Devnet по умолчанию.
+- Для выбора схемы генерации ключей [`ed25519`](https://ed25519.cr.yp.to/) используется значение `0` .
 
-- Switching network: `sui client switch --env [network alias]`
-- Default network aliases: 
+### Работа с сетями
+
+- Для переключения между сетями используется команда: `sui client switch --env [network alias]`
+- Существуют стандартные псевдонимы сетей: 
     - localnet: http://0.0.0.0:9000
     - devnet: https://fullnode.devnet.sui.io:443
-- List all current network aliases: `sui client envs`
-- Add new network alias: `sui client new-env --alias <ALIAS> --rpc <RPC>`
-    - Try adding a testnet alias with: `sui client new-env --alias testnet --rpc https://fullnode.testnet.sui.io:443`
+- Просмотр всех текущих псевдонимов сетей: `sui client envs`
+- Для добавление нового псевдонима сети: `sui client new-env --alias <ALIAS> --rpc <RPC>`
+    - Пример добавления testnet: `sui client new-env --alias testnet --rpc https://fullnode.testnet.sui.io:443`
 
-### Check Active Address and Gas Objects
+### Проверка активного адреса и объектов газа
 
-- Check current addresses in key store: `sui client addresses`
-- Check active-address: `sui client active-address`
-- List all controlled gas objects: `sui client gas`
+- Список текущих адресов: `sui client addresses`
+- Активный адрес: `sui client active-address`
+- Все контролируемые объекты газа: `sui client gas`
 
-## Get Devnet or Testnet Sui Tokens
+## Получение токенов Sui для сетей Devnet или Testnet
 
-1. [Join Sui Discord](https://discord.gg/sui)
-2. Complete verification steps
-3. Enter [`#devnet-faucet`](https://discord.com/channels/916379725201563759/971488439931392130) channel for devnet tokens, or [`#testnet-faucet`](https://discord.com/channels/916379725201563759/1037811694564560966) channel for testnet tokens
-4. Type `!faucet <WALLET ADDRESS>`
+1. [Нужно присоединиться к Discord Sui.](https://discord.gg/sui)
+2. Выполните шаги верификации
+3. Для получения токенов devnet канал  [`#devnet-faucet`](https://discord.com/channels/916379725201563759/971488439931392130), а для токенов testnet - канал [`#testnet-faucet`](https://discord.com/channels/916379725201563759/1037811694564560966) 
+4. Введите команду: `!faucet <WALLET ADDRESS>`
+

@@ -1,33 +1,33 @@
-# Custom Types and Abilities
+# Пользовательские типы и способности
 
-In this section, we will start creating our Hello World example contract step by step and explain fundamental concepts in Sui Move as they come up, such as custom types and abilities. 
+В этом разделе начинается пошаговое создание  контракта Hello World, с пояснениями базовых концепций языка Sui Move, таких как пользовательские типы и способности.
 
-## Initializing the Package
+## Инициализация пакета
 
-(If you skipped the previous section) You can initialize a Hello World Sui package with the following command in the command line after [installing Sui binaries](./1_set_up_environment.md#install-sui-binaries-locally):
+(Если вы пропустили предыдущий урок) Инициализация пакета Hello World Sui может быть выполнена через следующую команду в терминале после [установки бинарных файлов Sui](./1_set_up_environment.md#install-sui-binaries-locally):
 
 `sui move new hello_world`
 
-## Create the Contract Source File
+## Создание исходного файла контракта
 
-Use an editor of your choice to create a Move smart contract source file called `hello.move` under the `sources` subfolder. 
+Используя любой текстовый редактор по вашему предпочтению, создадите исходный файл смарт-контракта Move с именем `hello.move` в подпапке `sources`.
 
-And create the empty module as follows:
+И создайте пустой модуль следующим образом:
 
 ```move
 module hello_world::hello_world;
-    // module contents
+    // содержимое модуля
 ```
 
-### Import Statements
+### Импорт модулей
 
-You can directly import modules in Move by their address, but to make code easier to read, we can organize imports with the keyword `use`. 
+В Move модули можно импортировать напрямую по адресу, однако для удобства чтения кода импорты организуются с помощью ключевого слова `use`. 
 
 ```move
 use <Address/Alias>::<ModuleName>;
 ```
 
-In our example, we need to import the following modules:
+В рассматриваемом примере необходимы следующие импорты:
 
 ```move
 use std::string;
@@ -36,39 +36,40 @@ use sui::transfer;
 use sui::tx_context::{Self, TxContext};
 ```
 
-## Custom Types
+## Пользовательские типы
 
-A structure in Sui Move is a custom type that contains key-value pairs, where the key is the name of a property, and the value is what's stored. Defined using the keyword `struct`, a structure can have up to 4 abilities.
+Структура в Sui Move представляет собой пользовательский тип, содержащий пары "ключ-значение", где ключ — это имя свойства, а значение — то, что хранится. Определение структуры осуществляется с помощью ключевого слова `struct`, при этом структура может иметь до 4 способностей.
 
-### Abilities
+### Способности
 
-Abilities are keywords in Sui Move that define how types behave at the compiler level. 
+Способности - это ключевые слова в Sui Move, которые определяют поведение типов на уровне компилятора.
 
-Abilities are crucial to defining how objects behave in Sui Move at the language level. Each unique combination of abilities in Sui Move is its own design pattern. We will study abilities and how to use them in Sui Move throughout the course.
+Они играют ключевую роль в описании поведения объектов на уровне языка. Каждая уникальная комбинация способностей представляет собой отдельный шаблон проектирования. В рамках курса рассматриваются различные способности и сценарии их применения в Sui Move.
 
-For now, just know that there are four abilities in Sui Move:
+На текущем этапе достаточно знать, что в Sui Move существуют четыре способности:
 
-- **copy**: value can be copied (or cloned by value)
-- **drop**: value can be dropped by the end of the scope
-- **key**: value can be used as a key for global storage operations
-- **store**: value can be held inside a struct in global storage
+- **copy**: значение может быть скопировано (или клонировано по значению)
+- **drop**: значение может быть удалено по окончании области видимости
+- **key**: значение может использоваться как ключ при операциях с глобальным хранилищем
+- **store**: значение может храниться внутри структуры в глобальном хранилище
 
-#### Assets
+#### Активы
 
-Custom types that have the abilities `key` and `store` are considered to be **assets** in Sui Move. Assets are stored in global storage and can be transferred between accounts.  
+Пользовательские типы, обладающие способностями `key` и `store`, считаются **активами** в Sui Move. Активы хранятся в глобальном хранилище и могут передаваться между аккаунтами.
 
-### Hello World Custom Type
+### Пользовательский тип Hello World
 
-We define the object in our Hello World example as the following:
+Объект в примере Hello World определяется следующим образом:
 
 ```move
-/// An object that contains an arbitrary string
+///  Объект, содержащий произвольную строку
 public struct HelloWorldObject has key, store {
   	id: UID,
-  	/// A string contained in the object
+  	/// Строка, содержащаяся в объекте
   	text: string::String
 }
 ```
 
-UID here is a Sui Framework type (sui::object::UID) that defines the globally unique ID of an object. Any custom type with the `key` ability is required to have an ID field. 
+UID представляет собой тип из фреймворка Sui (sui::object::UID), определяющий глобально уникальный идентификатор объекта. Каждый пользовательский тип со способностью `key` должен содержать поле id.
+
 

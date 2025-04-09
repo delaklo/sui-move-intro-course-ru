@@ -1,68 +1,68 @@
-# Contract Deployment and Hello World Demo
+# Публикация контракта и демонстрация Hello World
 
-## The Complete Hello World Sample Project
+## Полный пример проекта Hello World
 
-You can find the complete Hello World project in [this directory](../example_projects/hello_world). 
+Полный проект Hello World доступен по [следующему пути](../example_projects/hello_world). 
 
-## Deploying the Contract
+## Публикация контракта
 
-We will use the Sui CLI to deploy the package to the Sui network. You can deploy it to either the Sui devnet, testnet, or 
-the local node. Just set the Sui CLI to the respective network and have enough tokens to pay for gas. 
+Для публикации пакета в сеть Sui используется Sui CLI. Публикация возможно в Sui devnet, testnet или на локальной ноде. Для этого достаточно настроить Sui CLI на соответствующую сеть и обеспечить наличие достаточного количества токенов для оплаты газа.
 
-The Sui CLI command for deploying the package is the following:
+Команда для публикации пакета выглядит следующим образом:
 
 ```bash
-sui client publish [absolute file path to the package that needs to be published]
+sui client publish [абсолютный путь к пакету, который требуется опубликовать]
 ```
 
-If the absolute file path to the package is not provided, it will default to `.` or the current directory. 
+Если абсолютный путь не указан, по умолчанию используется `.` — текущая директория. 
 
-The output should look something like this if the contract was successfully deployed:
+При успешной публикации контракта вывод в терминал может выглядеть следующим образом:
 
 ![Publish Output](../images/publish.png)
 
-The object ID under the `Published Objects` section is the object ID of the Hello World package we just published.
+Значение в секции `Published Objects` — это идентификатор опубликованного пакета Hello World.
 
-Let's export that to a variable. 
+Этот идентификатор можно сохранить в переменную:
 
 ```bash
-export PACKAGE_ID=<package object ID from previous output>
+export PACKAGE_ID=<package object ID из предыдущего вывода в консоль>
 ```
 
-## Calling a Method through a Transaction
+## Вызов метода через транзакцию
 
-Next, we want to mint a Hello World object by calling the `mint` function in the smart contract we just deployed.
+Далее мы хотим заминтить объект Hello World, вызвав функцию `mint` в только что опубликованом смарт-контракте.
 
-Note that we are able to do this because `mint` is an entry function. 
+Это возможно благодаря тому, что `mint` является входной функцией.
 
-The command for this using Sui CLI is:
+Команда для вызова через Sui CLI имеет следующий вид:
 
 ```bash
 sui client call --function mint --module hello_world --package $PACKAGE_ID 
 ```
 
-The console output should look like this if the `mint` function was successfully called and a Hello World object was created and transferred:
+Вывод в консоли при успешном вызове функции `mint` и создании с последующей передачей объекта Hello World будет выглядеть примерно так:
 
 ![Mint Output](../images/mint.png)
 
-The object ID under the `Created Objects` section of the output is the ID of the Hello World object.
+Значение в секции `Created Objects` соответствует идентификатору созданного объекта Hello World.
 
-## Viewing the Object with Sui Explorer
+## Просмотр объекта через Sui Explorer
 
-Let's use the [Sui Explorer](https://suiexplorer.com/) to view the Hello World object we just created and transferred.
+Через [Sui Explorer](https://suiexplorer.com/) можно просмотреть созданный и переданный объект Hello World.
 
-Choose the network you are using through the dropdown menu on the upper right. 
+Сначала следует выбрать используемую сеть в выпадающем списке в правом верхнем углу интерфейса.
 
-If you are using a local dev node, select the `Custom RPC URL` option and enter:
+Если используется локальная dev-нода, необходимо выбрать опцию `Custom RPC URL` и ввести:
 
 ```bash
 http://127.0.0.1:9000
 ```
 
-Search for the object ID from the output of the previous transaction and you should be able to find the object on the explorer:
+Далее можно выполнить поиск по ID объекта, полученному на предыдущем шаге. После этого объект отобразится в интерфейсе обозревателя:
 
 ![Explorer Output](../images/explorer.png)
 
-You should see the text "Hello World!" under the object's properties. 
+В свойствах объекта отображается текст "Hello World!".
 
-Great job, this concludes the first unit of the course.
+Отлично, на этом первый раздел курса завершается.
+

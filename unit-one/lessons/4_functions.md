@@ -1,22 +1,22 @@
-# Functions
+# Функции
 
-In this section, we will introduce functions in Sui Move and write our first Sui Move function as a part of the Hello World example. 
+В этом разделе рассматриваются функции в Sui Move, а также будет создана первая функция в рамках примера Hello World.
 
-## Function Visibility
+## Видимость функций
 
-Sui Move functions have three types of visibility:
+Функции в Sui Move имеют три типа видимости:
 
-- **private**: the default visibility of a function; it can only be accessed by functions inside the same module
-- **public**: the function is accessible by functions inside the same module and by functions defined in another module
-- **public(package)**: the function is accessible by functions of modules inside the same package
+- **private**: видимость по умолчанию; доступ возможен только для функций внутри текущего модуля
+- **public**: функция доступна как внутри текущего модуля, так и из других модулей
+- **public(package)**: функция доступна для функций модулей внутри того же пакета.
 
-## Return Value
+## Возвращаемое значение
 
-The return type of a function is specified in the function signature after the function parameters, separated by a colon. 
+Тип возвращаемого значения функции указывается после списка параметров через двоеточие.
 
-A function's last line (of execution) without a semicolon is the return value. 
+Последняя строка функции без точки с запятой считается возвращаемым значением.
 
-Example:
+Пример:
 
 ```move
     public fun addition (a: u8, b: u8): u8 {
@@ -35,15 +35,15 @@ In Sui Move, entry functions are simply functions that can be called by transact
 
 -->
 
-## Transaction Context
+## Контекст транзакции
 
-Functions called directly through a transaction typically have an instance of `TxContext` as the last parameter. This is a special parameter set by the Sui Move VM and does not need to be specified by the user calling the function. 
+Функции, вызываемые напрямую через транзакцию, обычно имеют экземпляр `TxContext` в качестве последнего параметра. Этот параметр автоматически передаётся виртуальной машиной Sui Move и его не надо указывать вручную при вызове функции.
 
-The `TxContext` object contains [essential information](https://github.com/MystenLabs/sui/blob/main/crates/sui-framework/packages/sui-framework/sources/tx_context.move) about the transaction used to call the entry function, such as the sender's address, the tx's digest ID, the tx's epoch, etc. 
+Объект `TxContext` содержит [важную информацию](https://github.com/MystenLabs/sui/blob/main/crates/sui-framework/packages/sui-framework/sources/tx_context.move) использованной для вызова входной функции, такую как адрес отправителя,хеш транзакции, эпоху и т.д.
 
-## Create the `mint` Function 
+## Создание функции `mint`
 
-We can define our minting function in the Hello World example as the following:
+Функция чеканки (mint) в примере Hello World может быть определена следующим образом:
 
 ```move
     public fun mint(ctx: &mut TxContext) {
@@ -55,5 +55,6 @@ We can define our minting function in the Hello World example as the following:
     }
 ```
 
-This function simply creates a new instance of the `HelloWorldObject` custom type, then uses the Sui system [`public_transfer`](https://github.com/MystenLabs/sui/blob/main/crates/sui-framework/docs/sui/transfer.md#function-public_transfer) function to send it to the transaction caller. 
+Эта функция создаёт новый экземпляр пользовательского типа `HelloWorldObject`, после чего вызывает системную функцию [`public_transfer`](https://github.com/MystenLabs/sui/blob/main/crates/sui-framework/docs/sui/transfer.md#function-public_transfer) из фреймворка Sui для передачи созданного объекта отправителю транзакции.
+
 
